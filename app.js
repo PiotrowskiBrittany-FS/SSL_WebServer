@@ -30,6 +30,12 @@ router.get("/about", function(req,res){
     
 })
 
+router.post("/login",function(req,res){
+    console.log(req.body);
+    res.redirect("/");
+})
+
+
 app.use(express.static("public"))
 app.use("/", router);
 var server = app.listen("8080");
