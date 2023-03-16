@@ -1,39 +1,36 @@
+"use strict"
+
 var fs = require("fs");
 var http = require("http");
 var path = require("path");
 var url = require("url");
 
-http.createServer(function(req,res){
+var express = require("express");
+var request = require("request");
+var bodyParser = require("body-parser")
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+
+let ejs = require("ejs");
+const router = express.Router();
+var app = express();
+app.set("view engine", "ejs");
+app.engine("ejs", require("ejs")._express);
+
+router.get("/", function(req,res){
     
-    var parsed = url.parse(req.url);
-    var filename = path.parse(parsed.pathname);
+    res.render("index", {pagename:"Home"});
 
-    filen = filename.name==""?"index":filename.name;
-    ext = filename.ext==""?".html":filename.ext;
-    dir = filename.dir=="/"?"":filename.dir+"/";
-    page = filename.name ==""?"index.html":filename.name + filename.ext;
+})
 
-    f = (dir+filen+ext).replace("/","");
+router.get("/about", function(req,res){
 
-    var mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
-    };
+    res.render("about", {pagename:"About"});
+    
+})
 
-    if (f){
-        fs.readFile(f,function(err,data){
-            if(page){
-                if(mimeTypes.hasOwnProperty(ext)){
-                    res.writeHead(200, {'Context-Type':mimeTypes[ext]});
-                    res.write("<script>var page='"+page+"';</script>");
-                    res.end(data, 'utf-8')
-                }
-            }
-        })
-    }
+app.use(express.static("public"))
+app.use("/", router);
+var server = app.listen("8080");
 
-}).listen("8080")
