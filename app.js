@@ -29,6 +29,10 @@ router.get("/about", function(req,res){
     
 })
 
+router.get("/profile", function(req,res){
+    res.render("profile", {pagename:"Profile"})
+})
+
 router.post("/login", function(req, res) {
     console.log(req.body.email);
     console.log(req.body.password);
