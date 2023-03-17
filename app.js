@@ -1,22 +1,19 @@
-"use strict"
-
-var fs = require("fs");
-var http = require("http");
-var path = require("path");
-var url = require("url");
-
-var express = require("express");
-var request = require("request");
-var bodyParser = require("body-parser")
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-
-
+"use strict";
+let fs = require("fs");
+let http = require("http");
+let path = require("path");
+let url = require("url");
+let express = require("express");
+let request = require("request");
+let bodyParser = require("body-parser");
 let ejs = require("ejs");
+
 const router = express.Router();
-var app = express();
+let app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-app.engine("ejs", require("ejs")._express);
+app.engine("ejs", require("ejs").__express);
 
 router.get("/", function(req,res){
     
