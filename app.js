@@ -11,37 +11,43 @@ let ejs = require("ejs");
 const session = require('express-session');
 let app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true
-}));
-
-
 const router = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
 
+const session = require("express-session");
+app.use(session({secret:"secret",saveUnitialized:true,resave:true}));
+var sess;
 
-router.get("/", function(req,res){
-    var pagename = "Home";
-    res.render("index", {pagename:"Home"});
-});
+router.get('/',function(req,res){
+    sess=req.session;
+    res.render('index', {pagename: "Home",sess:sess})
+})
 
 router.get("/about", function(req,res){
-    var pagename = "About";
-    res.render("about", {pagename:"About"});
+    sess=req.session;
+    res.render("about", {pagename:"About",sess:sess});
 });
 
+
 router.get("/profile", function(req,res){
-    var pagename = "Profile"
-    res.render("profile", {pagename:"Profile"});
+    sess=req.session;
+    if(typeof(sess)=="undefined"||sess.loggedin != true){
+        var errors = ["Not an authenticated user"];
+        res.render("index",{pagename:"Home",errors:errors})
+    } else {
+        res.render("profile", {pagename:"Profile",sess:sess});
+    }
 });
+
+router.get("/logout",function(req,res){
+    sess=req.session;
+    sess.destroy(function(err){
+        res.redirect("/");
+    })
+})
 
 router.post("/login", function(req, res) {
     console.log(req.body.email);
