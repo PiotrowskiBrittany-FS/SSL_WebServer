@@ -50,8 +50,6 @@ router.get("/logout",function(req,res){
 })
 
 router.post("/login", function(req, res) {
-    console.log(req.body.email);
-    console.log(req.body.password);
     var errors = [];
     if (req.body.email == "") {
         errors.push("Email is required")
@@ -69,11 +67,13 @@ router.post("/login", function(req, res) {
         res.render("login", { errors: errors });
     } 
     if (req.body.email === 'Mike@aol.com' && req.body.password === 'abc123') {
-        req.session.loggedin = true;
-        res.render('profile');
+        sess = req.session;
+        sess.loggedin = true;
+        res.render('profile',{pagename:'Profile',sess:sess});
     } else {
-        req.session.loggedin = false;
-        res.render('index');
+        sess = req.session;
+        sess.loggedin = false;
+        res.render('index',{pagename:'Home',sess:sess});
     }
 });
 
