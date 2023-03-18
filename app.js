@@ -7,8 +7,6 @@ let express = require("express");
 let request = require("request");
 let bodyParser = require("body-parser");
 let ejs = require("ejs");
-
-const session = require('express-session');
 let app = express();
 
 const router = express.Router();
