@@ -19,6 +19,15 @@ const session = require("express-session");
 app.use(session({secret:"secret",resave:false,saveUnitialized:false}));
 var sess;
 
+app.get('/css/styles.css', (req, res) => {
+    res.set('Content-Type', 'text/css');
+    res.sendFile(path.join(__dirname, '/css/styles.css'));
+});
+app.get('/js/scripts.js', function(req, res) {
+    res.setHeader('Content-Type', 'text/javascript');
+    res.sendFile(__dirname + '/js/scripts.js');
+});
+
 router.get('/',function(req,res){
     sess=req.session;
     res.render('index', {pagename: "Home",sess:sess})
