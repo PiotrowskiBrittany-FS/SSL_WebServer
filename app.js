@@ -63,10 +63,6 @@ router.post("/login", function(req, res) {
     var errors = [];
     if (req.body.email == "") {
         errors.push("Email is required")
-        const emailValidation = check('firstName')
-        .not()
-        .isEmpty()
-        .withMessage('Email is Required')
         }
     if (req.body.password == "") {
         errors.push("Password is required")
@@ -86,25 +82,6 @@ router.post("/login", function(req, res) {
         sess.loggedin = false;
         res.render('index',{pagename:'Home',error:errors});
     }
-
-    app.post('/login', [
-        emailValidation,
-        
-        ], (req, res) => {
-        // Check for validation errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            // Render the form again with error messages
-            return res.render('form', {
-                errors: errors.array(),
-                formData: req.body
-            });
-        }
-    
-        // If no errors, process the form data and redirect
-        // to a success page
-        // ...
-        });
     
 });
 
