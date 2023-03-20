@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
 
 const session = require("express-session");
-app.use(session({secret:"secret",saveUnitialized:true,resave:true}));
+app.use(session({secret:"secret",resave:false,saveUnitialized:false}));
 var sess;
 
 router.get('/',function(req,res){
@@ -61,9 +61,6 @@ router.post("/login", function(req, res) {
     if (req.body.password !== "abc123") {
         errors.push("Invalid password");
     }
-    if (errors.length > 0) {
-        res.render("login", { errors: errors });
-    } 
     if (req.body.email === 'Mike@aol.com' && req.body.password === 'abc123') {
         sess = req.session;
         sess.loggedin = true;
@@ -71,7 +68,7 @@ router.post("/login", function(req, res) {
     } else {
         sess = req.session;
         sess.loggedin = false;
-        res.render('index',{pagename:'Home',sess:sess});
+        res.render('index',{pagename:'Home',error:errors});
     }
 });
 
