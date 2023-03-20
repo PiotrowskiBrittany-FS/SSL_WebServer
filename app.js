@@ -61,7 +61,7 @@ router.post("/login", function(req, res) {
     if (req.body.password !== "abc123") {
         errors.push("Invalid password");
     }
-    if (req.body.email === 'Mike@aol.com' && req.body.password === 'abc123') {
+    if (req.body.email === 'mike@aol.com' && req.body.password === 'abc123') {
         sess = req.session;
         sess.loggedin = true;
         res.render('profile',{pagename:'Profile',sess:sess});
